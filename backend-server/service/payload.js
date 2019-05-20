@@ -37,8 +37,8 @@ router.get('/generate', async (request, response) => {
         console.log("Radius: " + radius);
         console.log("X: "+request.query.lat);
         console.log("Y: "+request.query.lng);
-        let randomX = getRandomArbitrary(currentX,radius+currentX);
-        let randomY = getRandomArbitrary(currentY, radius+currentY);
+        let randomX = getRandomArbitrary(currentX,radius+currentX) * Math.round(Math.random()) * 2 - 1;
+        let randomY = getRandomArbitrary(currentY, radius+currentY) * Math.round(Math.random()) * 2 - 1;
         console.log("randomX: "+randomX);
         console.log("randomY: "+randomY);
         // let v = Math.floor(Math.random() * Math.floor(10000000)) / 10000000;
