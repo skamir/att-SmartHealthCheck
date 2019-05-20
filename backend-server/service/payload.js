@@ -30,26 +30,36 @@ router.post('/register', async (request, response) => {
 
 router.get('/generate', async (request, response) => {
     try{
+        let currentX = parseFloat(request.query.lat);
+        let currentY = parseFloat(request.query.lng);
+        let radius = parseFloat(request.query.radius);
 
-        let v = Math.floor(Math.random() * Math.floor(10000000)) / 10000000;
-
-        console.log("v" + v);
-        let u = Math.floor(Math.random() * Math.floor(10000000)) / 10000000;
-        console.log("u" + u);
-
-        let w = request.query.radius * Math.sqrt(u);
-        console.log("w" + w);
-        let t = 2 * Math.PI * v;
-        console.log("t" + t);
-        let x = w * Math.cos(t);
-        console.log("x" + x);
-        let y = w * Math.sin(t);
-        console.log("y" + y);
+        console.log("Radius: " + radius);
+        console.log("X: "+request.query.lat);
+        console.log("Y: "+request.query.lng);
+        let randomX = getRandomArbitrary(currentX,radius+currentX);
+        let randomY = getRandomArbitrary(currentY, radius+currentY);
+        console.log("randomX: "+randomX);
+        console.log("randomY: "+randomY);
+        // let v = Math.floor(Math.random() * Math.floor(10000000)) / 10000000;
+        //
+        // console.log("v" + v);
+        // let u = Math.floor(Math.random() * Math.floor(10000000)) / 10000000;
+        // console.log("u" + u);
+        //
+        // let w = request.query.radius * Math.sqrt(u);
+        // console.log("w" + w);
+        // let t = 2 * Math.PI * v;
+        // console.log("t" + t);
+        // let x = w * Math.cos(t);
+        // console.log("x" + x);
+        // let y = w * Math.sin(t);
+        // console.log("y" + y);
 
         var name = fakerator.names.name();
         var geoLocation = fakerator.address.geoLocation();
-        geoLocation.latitude = request.query.lat + y;
-        geoLocation.longitude = request.query.lng + x;
+        geoLocation.latitude = randomX;
+        geoLocation.longitude = randomY;
         var phoneNumber = fakerator.phone.number();
         var codeNumber = fakerator.random.number(1, 10);
 
@@ -70,6 +80,10 @@ router.get('/generate', async (request, response) => {
         response.status(500).send(err);
     }
 });
+
+function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
