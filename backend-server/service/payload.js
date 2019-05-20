@@ -28,6 +28,18 @@ router.post('/register', async (request, response) => {
     }
 });
 
+router.post('/generate', async (request, response) => {
+    try{
+        console.log('generate, post request received');
+        response.status(200).send("");
+    }
+    catch(err){
+        console.log(err);
+        response.status(500).send(err);
+    }
+});
+
+
 router.get('/generate', async (request, response) => {
     try{
         let currentX = parseFloat(request.query.lat);
