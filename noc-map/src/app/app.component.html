@@ -2,11 +2,6 @@
   [latitude]="lat"
   [longitude]="lng"
   [zoom]="15">
-
-  <agm-marker [latitude]="lat" [longitude]="lng">
-    <agm-info-window>Börk</agm-info-window>
-  </agm-marker>
-
   <agm-marker
     *ngFor="let m of markers; let i = index"
     [latitude]="m.geoLocation.latitude"
@@ -26,4 +21,5 @@
   </agm-circle>
 
 </agm-map>
+<button (click)="removeMarkers()">Reset Markers</button>
 

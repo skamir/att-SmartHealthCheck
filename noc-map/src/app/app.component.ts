@@ -38,4 +38,9 @@ export class AppComponent implements OnInit {
       });
     }
   }
+    removeMarkers(){
+      this.markers = [];
+      this._appComponentService.sendNotificationToBe();
+
+    }
 }
