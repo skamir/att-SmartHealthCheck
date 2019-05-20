@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">My AT&amp;T Pro</string>
+    <string name="unnoticed_problem_solved">Hi, had any connectivity issues?\nAT&amp;T has good news for you - we fixed the problem, enjoy 2 tickets to the next game on us :)</string>
+    <string name="driving_problem_solved">Hi, we noticed you experienced connectivity issues last time in this area.\nAT&amp;T has good news for you - we fixed the problem, enjoy 2 baseball tickets - on us :)
+</string>
+    <string name="thanks">Thanks!</string>
+    <string name="dialog_title">Network Issue Solved</string>
+</resources>
