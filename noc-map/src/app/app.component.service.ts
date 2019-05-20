@@ -1,7 +1,11 @@
 import {Injectable} from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 
 @Injectable()
-export class AppComponentService{
+export class AppComponentService {
+  constructor(private _httpClient : HttpClient){
+
+  }
   getPosition(): Promise<any> {
     return new Promise((resolve, reject) => {
       navigator.geolocation.getCurrentPosition(resp => {
@@ -42,5 +46,12 @@ export class AppComponentService{
       return [intlCode, '(', match[2], ') ', match[3], '-', match[4]].join('');
     }
     return null;
+  }
+
+  getRandomPosition() {
+    const userBody = '{"userId" : 12345}';
+    this._httpClient.post( 'http://localhost:8094/service/register/', JSON.parse(userBody)).subscribe(() => {
+      alert( 'REGISTER OK.');
+    });
   }
 }

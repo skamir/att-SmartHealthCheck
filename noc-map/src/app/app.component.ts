@@ -17,35 +17,21 @@ export class AppComponent implements OnInit {
 
 
 
-  constructor(private _appComponentService: AppComponentService) {
-
-  }
+  constructor(private _appComponentService: AppComponentService) {}
 
   ngOnInit(): void {
     this.getCurrentGeoLocation();
-  }
-
-  getCellularSites() {
-    this.cellolarSites = [];
-    for (let i = 0; i < 30; i++) {
-      const tmp = this._appComponentService.getRandomLocation(this.lng, this.lat, this.radius + 300);
-      tmp.label = this._appComponentService.formatPhoneNumber(Math.floor(100000000 + Math.random() * 900000000));
-      this.cellolarSites.push(tmp);
-      console.log(this.cellolarSites);
-    }
   }
 
   async getCurrentGeoLocation() {
     this.currentLocation = await this._appComponentService.getPosition();
     this.lng = this.currentLocation.lng;
     this.lat = this.currentLocation.lat;
-    console.log('currentLocation', this.currentLocation);
     this.markers = [];
     for (let i = 0; i < 30; i++) {
       const tmp = this._appComponentService.getRandomLocation(this.lng, this.lat, this.radius);
       tmp.icon = '../assets/error.png';
       this.markers.push(tmp);
-      console.log(this.markers);
     }
   }
 }
