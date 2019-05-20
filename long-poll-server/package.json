@@ -9,9 +9,15 @@
   "dependencies": {
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
-    "express": "^4.16.2",
+    "express": "^4.17.0",
     "express-longpoll": "0.0.4",
-    "request": "^2.83.0"
+    "fakerator": "^0.3.0",
+    "libphonenumber-js": "^1.7.18",
+    "request": "^2.88.0"
   },
-  "devDependencies": {}
+  "devDependencies": {},
+  "main": "long_poll.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
 }
