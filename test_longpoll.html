@@ -1,0 +1,28 @@
+ <!DOCTYPE html>
+<html>
+<head>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+<script>
+$.post( "http://localhost:8094/service/register/", {"userId":1234}, function( data ) {
+  $( ".result" ).html( data );
+  alert( "REGISTER OK." );
+});
+
+while (true) {
+$.ajax({
+   async: false,
+   url: "http://localhost:8094/poll/1234",
+   success: function(data){
+        alert("poll ok:"+data)
+   },
+   timeout: 600*1000 //in milliseconds
+});
+}
+</script>
+</head>
+<body>
+</body>
+</html> 
