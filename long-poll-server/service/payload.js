@@ -5,7 +5,7 @@ var Fakerator = require("fakerator");
 var fakerator = Fakerator();
 
 
-const server = 'http://localhost:8094/';
+const server = 'http://localhost:8095/';
 let userMap = {};
 
 router.post('/register', async (request, response) => {
@@ -30,8 +30,26 @@ router.post('/register', async (request, response) => {
 
 router.get('/generate', async (request, response) => {
     try{
+
+        let v = Math.floor(Math.random() * Math.floor(10000000)) / 10000000;
+
+        console.log("v" + v);
+        let u = Math.floor(Math.random() * Math.floor(10000000)) / 10000000;
+        console.log("u" + u);
+
+        let w = request.query.radius * Math.sqrt(u);
+        console.log("w" + w);
+        let t = 2 * Math.PI * v;
+        console.log("t" + t);
+        let x = w * Math.cos(t);
+        console.log("x" + x);
+        let y = w * Math.sin(t);
+        console.log("y" + y);
+
         var name = fakerator.names.name();
         var geoLocation = fakerator.address.geoLocation();
+        geoLocation.latitude = request.query.lat + y;
+        geoLocation.longitude = request.query.lng + x;
         var phoneNumber = fakerator.phone.number();
         var codeNumber = fakerator.random.number(1, 10);
 
