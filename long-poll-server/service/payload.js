@@ -1,6 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
+var Fakerator = require("fakerator");
+var fakerator = Fakerator();
+
+
 const server = 'http://localhost:8094/';
 let userMap = {};
 
@@ -17,6 +21,31 @@ router.post('/register', async (request, response) => {
         request.app.locals.my_longpoll.create("/poll/" + userId);
 
         response.status(200).send("");
+    }
+    catch(err){
+        console.log(err);
+        response.status(500).send(err);
+    }
+});
+
+router.get('/generate', async (request, response) => {
+    try{
+        var name = fakerator.names.name();
+        var geoLocation = fakerator.address.geoLocation();
+        var phoneNumber = fakerator.phone.number();
+        var codeNumber = fakerator.random.number(1, 10);
+
+
+        console.log(phoneNumber);
+        console.log(geoLocation);
+        console.log(codeNumber);
+
+        const responseBody = { phoneNumber, geoLocation, codeNumber };
+
+        response.write(JSON.stringify(responseBody));
+        response.end();
+
+
     }
     catch(err){
         console.log(err);
