@@ -8,6 +8,7 @@ import {AppComponentService} from './app.component.service';
 })
 export class AppComponent implements OnInit {
   markers;
+  cellolarSites;
   currentLocation;
   lng;
   lat;
@@ -22,9 +23,17 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.getCurrentGeoLocation();
-
   }
 
+  getCellularSites() {
+    this.cellolarSites = [];
+    for (let i = 0; i < 30; i++) {
+      const tmp = this._appComponentService.getRandomLocation(this.lng, this.lat, this.radius + 300);
+      tmp.label = this._appComponentService.formatPhoneNumber(Math.floor(100000000 + Math.random() * 900000000));
+      this.cellolarSites.push(tmp);
+      console.log(this.cellolarSites);
+    }
+  }
 
   async getCurrentGeoLocation() {
     this.currentLocation = await this._appComponentService.getPosition();
@@ -34,7 +43,7 @@ export class AppComponent implements OnInit {
     this.markers = [];
     for (let i = 0; i < 30; i++) {
       const tmp = this._appComponentService.getRandomLocation(this.lng, this.lat, this.radius);
-      tmp.label = this._appComponentService.formatPhoneNumber(Math.floor(100000000 + Math.random() * 900000000));
+      tmp.icon = '../assets/error.png';
       this.markers.push(tmp);
       console.log(this.markers);
     }

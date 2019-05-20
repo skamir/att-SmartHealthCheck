@@ -13,11 +13,11 @@ export class AppComponentService{
     });
   }
 
-  getRandomLocation(lng, lat, radius: number): {lng, lat, label , date} {
+  getRandomLocation(lng, lat, radius: number): any {
     const u = this.getRandomInt(1000000000) / 1000000000;
     const v = this.getRandomInt(1000000000) / 1000000000;
 
-    const w = radius * Math.sqrt(u)
+    const w = radius * Math.sqrt(u);
     const t = 2 * Math.PI * v;
     const x = w * Math.cos(t);
     const y = w * Math.sin(t);

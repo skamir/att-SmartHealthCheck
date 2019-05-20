@@ -11,7 +11,7 @@
     *ngFor="let m of markers; let i = index"
     [latitude]="m.lat"
     [longitude]="m.lng"
-    [iconUrl]="'http://maps.google.com/mapfiles/kml/pal3/icon34.png'"
+    [iconUrl]="m.icon"
     [ngStyle]="{}">
 
     <agm-info-window>
