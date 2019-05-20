@@ -40,7 +40,10 @@ export class AppComponent implements OnInit {
   }
     removeMarkers(){
       this.markers = [];
-      this._appComponentService.sendNotificationToBe();
+      this._appComponentService.sendNotificationToBe().subscribe(
+          response=> console.log(response),
+          err=>console.log(err)
+      );
 
     }
 }

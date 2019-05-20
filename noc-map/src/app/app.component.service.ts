@@ -28,8 +28,11 @@ export class AppComponentService {
     return this._httpClient.get( `http://localhost:8095/service/generate?radius=${radius}&lat=${lat}&lng=${lng}`);
   }
 
-    sendNotificationToBe() {
+  sendNotificationToBe(): any {
         let body = new FormData();
-        this._httpClient.post(`http://localhost:8095/service/generate`, body);
+        const httpOptions = {
+            headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+        };
+        return this._httpClient.post(`http://localhost:8095/service/generate`, body, httpOptions);
   }
 }
