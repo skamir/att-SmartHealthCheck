@@ -1,49 +1,72 @@
 import {Component, OnInit} from '@angular/core';
 import {AppComponentService} from './app.component.service';
-import {LocaltionModel, MapLocationModel} from "./localtion.model";
+import {MapLocationModel} from './localtion.model';
+import * as _ from 'lodash';
+
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
-  markers;
-  cellolarSites;
-  currentLocation;
-  lng;
-  lat;
-  radius: number = 0.005;
-  zoom: number = 8;
+    dataIsReady = false;
+    markers;
+    cellolarSites;
+    currentLocation;
+    lng;
+    lat;
+    radius: number = 0.005;
+    zoom: number = 8;
 
+    numberOfmarkers: number = 20;
 
-
-  constructor(private _appComponentService: AppComponentService) {}
-
-  ngOnInit(): void {
-    this.getCurrentGeoLocation();
-  }
-
-  async getCurrentGeoLocation() {
-    this.currentLocation = await this._appComponentService.getPosition();
-    this.lng = this.currentLocation.lng;
-    this.lat = this.currentLocation.lat;
-    this.markers = [];
-    for (let i = 0; i < 30; i++) {
-      //http://localhost:8094/service/generate?radius=0.01&lat=-7.4476999999999975&lng=100.2149
-      this._appComponentService.getRandomPosition(this.radius, this.lat, this.lng).subscribe((tmp: MapLocationModel) => {
-        tmp.icon = '../assets/error.png';
-        this.markers.push(tmp);
-        console.log(this.markers)
-      });
+    origin;
+    destination;
+    constructor(private _appComponentService: AppComponentService) {
     }
-  }
-    removeMarkers(){
-      this.markers = [];
-      this._appComponentService.sendNotificationToBe().subscribe(
-          response=> console.log(response),
-          err=>console.log(err)
-      );
 
+    ngOnInit(): void {
+        this.getCurrentGeoLocation();
+    }
+
+    async getCurrentGeoLocation() {
+        this.currentLocation = await this._appComponentService.getPosition();
+        this.lng = this.currentLocation.lng;
+        this.lat = this.currentLocation.lat;
+        this.markers = [];
+        for (let i = 0; i < this.numberOfmarkers; i++) {
+            this._appComponentService.getRandomPosition(this.radius, this.lat, this.lng).subscribe((tmp: MapLocationModel) => {
+                tmp.icon = '../assets/error.png';
+                this.markers.push(tmp);
+                console.log(this.markers)
+                if (i === this.numberOfmarkers - 1) {
+                    this.dataIsReady = true;
+                    this.getDirection();
+
+                }
+            });
+        }
+       // this.getDirection();
+
+
+    }
+
+    removeMarkers() {
+        this.markers = [];
+        this._appComponentService.sendNotificationToBe().subscribe(
+            response => console.log(response),
+            err => console.log(err)
+        );
+    }
+
+
+    resetMarker(index): void {
+        this.markers.splice(index, 1);
+    }
+
+    getDirection() {
+        this.origin = { lat: this.markers[this.markers.length - 1].geoLocation.latitude, lng: this.markers[this.markers.length - 1].geoLocation.longitude };
+        this.destination = { lat: this.markers[0].geoLocation.latitude, lng: this.markers[0].geoLocation.longitude  };
     }
 }

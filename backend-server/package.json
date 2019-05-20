@@ -15,7 +15,9 @@
     "libphonenumber-js": "^1.7.18",
     "request": "^2.88.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "faker": "^4.1.0"
+  },
   "main": "long_poll.js",
   "author": "",
   "license": "ISC",
