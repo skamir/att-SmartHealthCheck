@@ -36,7 +36,7 @@ export class AppComponentService {
         const httpOptions = {
             headers: new HttpHeaders({'Content-Type': 'application/json'})
         };
-        return this._httpClient.get(`http://localhost:8095/service/send`, body, httpOptions);
+        return this._httpClient.get(`http://localhost:8095/service/send?userId=2345&data=test`);
     }
 
     getRandomAroundCenterPoint(radius, lat, lng, numberOfPoints): Promise<MapLocationModel[]> {
