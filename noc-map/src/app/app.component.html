@@ -71,13 +71,15 @@
 
     </agm-marker>=
 
-    <agm-circle [latitude]="lat" [longitude]="lng"
+    <agm-circle [latitude]="lat" [longitude]="lng" *ngIf="markers.length > 0"
                 [radius]="800"
                 (circleClick)="selectedMarkers=markers"
                 [fillColor]="'red'">
     </agm-circle>
 
-    <agm-circle [latitude]="extraDot.geoLocation.latitude"
+    <agm-circle
+            *ngIf="extraMarker.length > 0"
+            [latitude]="extraDot.geoLocation.latitude"
                 [longitude]="extraDot.geoLocation.longitude"
                 (circleClick)="selectedMarkers=extraMarker"
                 [radius]="600"
