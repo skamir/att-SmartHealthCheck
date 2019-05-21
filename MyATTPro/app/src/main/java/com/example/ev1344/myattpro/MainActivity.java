@@ -1,11 +1,13 @@
 package com.example.ev1344.myattpro;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import java.util.concurrent.TimeUnit;
 
@@ -21,6 +23,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
 
     Button showDialogButton;
+    RelativeLayout layout;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         getSupportActionBar().setIcon(R.mipmap.logo);
+        layout = findViewById(R.id.background);
         showDialogButton = findViewById(R.id.show_dialog_button);
         showDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -85,8 +90,18 @@ public class MainActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(R.string.dialog_title)
                 .setMessage(msgId)
-                .setPositiveButton(R.string.thanks, null)
+                .setPositiveButton(R.string.thanks, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                changeBg();
+                            }
+                        }
+                )
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .show();
+    }
+
+    private void changeBg() {
+        layout.setBackgroundResource(R.mipmap.myy_att_app_bg2);
     }
 }
