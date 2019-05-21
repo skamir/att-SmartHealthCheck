@@ -43,33 +43,37 @@ router.post('/generate', async (request, response) => {
 
 router.get('/generate', async (request, response) => {
     try{
-        let currentX = parseFloat(request.query.lat);
-        let currentY = parseFloat(request.query.lng);
-        let radius = parseFloat(request.query.radius);
 
 
-        const u = getRandomInt(1000000000) / 1000000000;
-        const v = getRandomInt(1000000000) / 1000000000;
-
-        const w = radius * Math.sqrt(u);
-        const t = 2 * Math.PI * v;
-        const x = w * Math.cos(t);
-        const y = w * Math.sin(t);
-
-        var geoLocation = fakerator.address.geoLocation();
-        geoLocation.latitude = currentX + y;
-        geoLocation.longitude = currentY + x;
-        var phoneNumber = faker.phone.phoneNumberFormat();
-        var codeNumber = fakerator.random.number(1, 10);
+        let numberOfLocations = request.query.numberOfPoints ? request.query.numberOfPoints : 1;
+        let result = [];
+        for(let i = 0 ; i < numberOfLocations ; i++){
+            let currentX = parseFloat(request.query.lat);
+            let currentY = parseFloat(request.query.lng);
+            let radius = parseFloat(request.query.radius);
 
 
-        console.log(phoneNumber);
-        console.log(geoLocation);
-        console.log(codeNumber);
+            let u = getRandomInt(1000000000) / 1000000000;
+            let v = getRandomInt(1000000000) / 1000000000;
 
-        const responseBody = { phoneNumber, geoLocation, codeNumber };
+            let w = radius * Math.sqrt(u);
+            let t = 2 * Math.PI * v;
+            let x = w * Math.cos(t);
+            let y = w * Math.sin(t);
 
-        response.write(JSON.stringify(responseBody));
+            let geoLocation = fakerator.address.geoLocation();
+            geoLocation.latitude = currentX + y;
+            geoLocation.longitude = currentY + x;
+            let phoneNumber = faker.phone.phoneNumberFormat();
+            let codeNumber = fakerator.random.number(1, 10);
+
+            let responseBody = { phoneNumber, geoLocation, codeNumber };
+            result.push(responseBody);
+        }
+
+        console.log(result);
+
+        response.write(JSON.stringify(result));
         response.end();
 
 

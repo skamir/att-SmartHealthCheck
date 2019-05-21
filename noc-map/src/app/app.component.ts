@@ -12,17 +12,21 @@ import * as _ from 'lodash';
 export class AppComponent implements OnInit {
     dataIsReady = false;
     markers;
+    extraMarker;
     cellolarSites;
     currentLocation;
+    extraDot;
     lng;
     lat;
     radius: number = 0.005;
-    zoom: number = 8;
+    zoom: number = 14.5;
+    selectedMarkers;
 
     numberOfmarkers: number = 20;
 
     origin;
     destination;
+
     constructor(private _appComponentService: AppComponentService) {
     }
 
@@ -34,22 +38,14 @@ export class AppComponent implements OnInit {
         this.currentLocation = await this._appComponentService.getPosition();
         this.lng = this.currentLocation.lng;
         this.lat = this.currentLocation.lat;
-        this.markers = [];
-        for (let i = 0; i < this.numberOfmarkers; i++) {
-            this._appComponentService.getRandomPosition(this.radius, this.lat, this.lng).subscribe((tmp: MapLocationModel) => {
-                tmp.icon = '../assets/error.png';
-                this.markers.push(tmp);
-                console.log(this.markers)
-                if (i === this.numberOfmarkers - 1) {
-                    this.dataIsReady = true;
-                    this.getDirection();
+        this.markers = await this._appComponentService.getRandomAroundCenterPoint(this.radius, this.lat, this.lng, this.numberOfmarkers);
+        this.extraDot = await  this._appComponentService.getSingleRandomPoint(this.radius, this.lat, this.lng);
 
-                }
-            });
-        }
-       // this.getDirection();
+        this.extraMarker = await this._appComponentService.getRandomAroundCenterPoint(this.radius, this.extraDot.geoLocation.latitude, this.extraDot.geoLocation.longitude, 8);
 
 
+        this.dataIsReady = true;
+        this.getDirection();
     }
 
     removeMarkers() {
@@ -66,7 +62,10 @@ export class AppComponent implements OnInit {
     }
 
     getDirection() {
-        this.origin = { lat: this.markers[this.markers.length - 1].geoLocation.latitude, lng: this.markers[this.markers.length - 1].geoLocation.longitude };
-        this.destination = { lat: this.markers[0].geoLocation.latitude, lng: this.markers[0].geoLocation.longitude  };
+        this.origin = {
+            lat: this.markers[this.markers.length - 1].geoLocation.latitude,
+            lng: this.markers[this.markers.length - 1].geoLocation.longitude
+        };
+        this.destination = {lat: this.markers[0].geoLocation.latitude, lng: this.markers[0].geoLocation.longitude};
     }
 }
